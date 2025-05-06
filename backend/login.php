@@ -1,32 +1,29 @@
 <?php
-include '../db_config.php';
 session_start();
+include("db_config.php"); // Make sure this path is correct
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = $_POST["username"];
-    $password = $_POST["password"];
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $username = trim($_POST['username']);
+    $password = $_POST['password'];
 
-    $stmt = $conn->prepare("SELECT user_id, password FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $stmt->store_result();
-    
-    if ($stmt->num_rows > 0) {
-        $stmt->bind_result($user_id, $hashed_password);
-        $stmt->fetch();
-
-        if (password_verify($password, $hashed_password)) {
-            $_SESSION["user_id"] = $user_id;
-            echo "✅ Login successful!";
-            // header("Location: ../dashboard.php"); // Uncomment when dashboard is ready
-        } else {
-            echo "❌ Invalid password.";
-        }
-    } else {
-        echo "❌ User not found.";
+    // Prepare and execute query
+    $stmt = $conn->prepare("SELECT * FROM users WHERE username = ?");
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
     }
 
-    $stmt->close();
-    $conn->close();
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+
+    // Verify user and password
+    if ($user && password_verify($password, $user['password'])) {
+        $_SESSION['user_id'] = $user['user_id'];
+        header("Location: ../dashboard.php"); // ✅ redirect to dashboard
+        exit();
+    } else {
+        echo "<p style='color:red;'>Invalid username or password.</p>";
+    }
 }
 ?>
