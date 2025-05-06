@@ -1,6 +1,6 @@
 <?php
 session_start();
-include("db_config.php"); // Make sure this path is correct
+include("../db_config.php");
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = trim($_POST['username']);
