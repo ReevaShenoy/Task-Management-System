@@ -1,6 +1,7 @@
 <?php
 session_start();
-include("db_config.php");
+include(__DIR__ . "/db_config.php");
+
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
@@ -13,10 +14,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $due_date = $_POST['due_date'] ?? null;
     $user_id = $_SESSION['user_id'];
 
-    $sql = "INSERT INTO tasks (user_id, title, description, due_date, status) VALUES (?, ?, ?, ?, 'pending')";
+    $sql = "INSERT INTO tasks (user_id, title, description, due_date, status) 
+            VALUES (?, ?, ?, ?, 'pending')";
+    
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isss", $user_id, $title, $description, $due_date);
-    $stmt->execute();
+    $stmt->execute([$user_id, $title, $description, $due_date]);
+
 }
 
 header("Location: ../dashboard.php");
