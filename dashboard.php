@@ -1,59 +1,68 @@
 <?php
 session_start();
-include("db_config.php");
-
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
+    header("Location: backend/login.php");
+    exit;
 }
 
+include("backend/db_config.php");
 $user_id = $_SESSION['user_id'];
 
-// Fetch tasks
-$sql = "SELECT * FROM tasks WHERE user_id = ? ORDER BY due_date IS NULL, due_date ASC, task_id DESC";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
+// Fetch tasks using PDO
+$stmt = $conn->prepare("SELECT task_id, user_id, title, description, due_date, status FROM tasks WHERE user_id = :user_id ORDER BY due_date ASC");
+$stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
 $stmt->execute();
-$result = $stmt->get_result();
-$tasks = $result->fetch_all(MYSQLI_ASSOC);
+$tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Task Dashboard</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Welcome to Your Dashboard</h1>
-    <a href="logout.php">Logout</a>
-
-    <h2>Add New Task</h2>
-    <form action="add_task.php" method="POST">
-        <input type="text" name="title" placeholder="Task Title" required>
-        <textarea name="description" placeholder="Description"></textarea>
-        <input type="date" name="due_date">
-        <button type="submit">Add Task</button>
-    </form>
+    <h1>Welcome to your Dashboard</h1>
+    <p>You are logged in.</p>
+    <a href="backend/logout.php">Logout</a>
 
     <h2>Your Tasks</h2>
-    <?php if (count($tasks) === 0): ?>
-        <p>No tasks found. Add a new task above.</p>
-    <?php else: ?>
-        <ul>
-            <?php foreach ($tasks as $task): ?>
-                <li>
-                    <strong><?php echo htmlspecialchars($task['title']); ?></strong>
-                    <p><?php echo htmlspecialchars($task['description']); ?></p>
-                    <p>Due: <?php echo $task['due_date'] ?? 'N/A'; ?></p>
-                    <p>Status: <?php echo $task['status'] === 'completed' ? '✅ Completed' : '❌ Pending'; ?></p>
-                    <?php if ($task['status'] !== 'completed'): ?>
-                        <a href="complete_task.php?id=<?php echo $task['task_id']; ?>">Mark as Complete</a>
-                    <?php endif; ?>
-                    <a href="delete_task.php?id=<?php echo $task['task_id']; ?>" onclick="return confirm('Are you sure you want to delete this task?');">Delete</a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    <?php endif; ?>
+    <ul>
+        <?php foreach ($tasks as $task): ?>
+            <li>
+                <strong><?php echo htmlspecialchars($task['title']); ?></strong>
+                (<?php echo htmlspecialchars($task['status']); ?>)
+                <br>
+                Due: <?php echo htmlspecialchars($task['due_date']); ?>
+                <br>
+                <?php echo nl2br(htmlspecialchars($task['description'])); ?>
+                <br>
+                <?php if ($task['status'] !== 'completed'): ?>
+                    <form action="backend/complete_task.php" method="POST" style="display:inline;">
+                        <input type="hidden" name="task_id" value="<?php echo $task['task_id']; ?>">
+                        <button type="submit">Mark as Complete</button>
+                    </form>
+                <?php endif; ?>
+                <form action="backend/delete_task.php" method="POST" style="display:inline;">
+                    <input type="hidden" name="task_id" value="<?php echo $task['task_id']; ?>">
+                    <button type="submit">Delete</button>
+                </form>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+
+    <h2>Add New Task</h2>
+    <form action="backend/add_task.php" method="POST">
+        <label>Title:</label>
+        <input type="text" name="title" required><br>
+
+        <label>Description:</label>
+        <textarea name="description"></textarea><br>
+
+        <label>Due Date:</label>
+        <input type="date" name="due_date"><br>
+
+        <button type="submit">Add Task</button>
+    </form>
 </body>
 </html>
