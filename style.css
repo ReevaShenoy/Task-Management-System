@@ -1,99 +1,107 @@
+/* General body styling */
 body {
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-    background: #f2f4f8;
-    padding: 30px;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f6fa;
     color: #333;
 }
 
-h1 {
-    margin-bottom: 20px;
-}
-
-.task-form {
-    background: #fff;
+/* Header with logout button */
+.header {
+    display: flex;
+    justify-content: flex-end;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    margin-bottom: 30px;
-    max-width: 400px;
 }
 
+.logout-button {
+    background-color: #e63946;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover {
+    background-color: #c62828;
+}
+
+/* Center container for all content */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+
+/* Centered form styling */
+.form-wrapper {
+    max-width: 400px;
+    width: 100%;
+    margin: 30px auto;
+    background-color: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Form input fields */
 .task-form input,
 .task-form textarea,
 .task-form button {
     width: 100%;
-    padding: 10px;
-    margin-top: 10px;
+    margin-bottom: 15px;
+    padding: 12px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 8px;
+    box-sizing: border-box;
 }
 
 .task-form button {
     background-color: #007bff;
     color: white;
     border: none;
+    font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .task-form button:hover {
     background-color: #0056b3;
 }
 
+/* Task cards */
 .task {
-    background: #fff;
-    padding: 15px 20px;
+    background-color: white;
+    padding: 20px;
     border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+    margin: 15px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 600px;
 }
 
-.task h3 {
-    margin: 0 0 5px 0;
-}
-
+/* Task actions */
 .actions {
     margin-top: 10px;
 }
 
 .actions a {
+    margin-right: 12px;
     color: #007bff;
-    margin-right: 15px;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .actions a:hover {
     text-decoration: underline;
 }
 
-.logout {
-    display: inline-block;
-    margin-top: 20px;
-    color: #dc3545;
-    text-decoration: none;
-}
-
-.logout:hover {
-    text-decoration: underline;
-}
-
-.header {
-    display: flex;
-    justify-content: flex-end;
-    padding-bottom: 20px;
-}
-
-.logout-button {
-    background-color: #dc3545;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background 0.3s ease;
-}
-
-.logout-button:hover {
-    background-color: #c82333;
+/* Heading */
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 10px;
 }

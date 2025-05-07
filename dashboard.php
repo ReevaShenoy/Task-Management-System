@@ -23,26 +23,29 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <a href="backend/logout.php" class="logout-button">Logout</a>
     </div>
 
-    <h1>Your Tasks</h1>
+    <div class="dashboard-container">
+        <h1>Your Tasks</h1>
 
-    <form action="backend/add_task.php" method="post" class="task-form">
-        <input type="text" name="title" placeholder="Title" required>
-        <textarea name="description" placeholder="Description"></textarea>
-        <input type="date" name="due_date">
-        <button type="submit">Add Task</button>
-    </form>
-
-    <?php foreach ($tasks as $row): ?>
-        <div class="task">
-            <h3><?= htmlspecialchars($row['title']) ?></h3>
-            <p><?= htmlspecialchars($row['description']) ?></p>
-            <p>Due: <?= $row['due_date'] ?> | Status: <?= $row['status'] ?></p>
-            <div class="actions">
-                <a href="backend/complete_task.php?id=<?= $row['task_id'] ?>">Complete</a>
-                <a href="backend/delete_task.php?id=<?= $row['task_id'] ?>">Delete</a>
-            </div>
+        <div class="form-wrapper">
+            <form action="backend/add_task.php" method="post" class="task-form">
+                <input type="text" name="title" placeholder="Title" required>
+                <textarea name="description" placeholder="Description"></textarea>
+                <input type="date" name="due_date">
+                <button type="submit">Add Task</button>
+            </form>
         </div>
-    <?php endforeach; ?>
 
+        <?php foreach ($tasks as $row): ?>
+            <div class="task">
+                <h3><?= htmlspecialchars($row['title']) ?></h3>
+                <p><?= htmlspecialchars($row['description']) ?></p>
+                <p>Due: <?= $row['due_date'] ?> | Status: <?= $row['status'] ?></p>
+                <div class="actions">
+                    <a href="backend/complete_task.php?id=<?= $row['task_id'] ?>">Complete</a>
+                    <a href="backend/delete_task.php?id=<?= $row['task_id'] ?>">Delete</a>
+                </div>
+            </div>
+        <?php endforeach; ?>
+    </div>
 </body>
 </html>
