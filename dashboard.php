@@ -25,39 +25,24 @@ $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <h1>Your Tasks</h1>
 
-<form action="backend/add_task.php" method="post" class="task-form">
-    <input type="text" name="title" placeholder="Title" required>
-    <textarea name="description" placeholder="Description"></textarea>
-    <input type="date" name="due_date">
-    <button type="submit">Add Task</button>
-</form>
+    <form action="backend/add_task.php" method="post" class="task-form">
+        <input type="text" name="title" placeholder="Title" required>
+        <textarea name="description" placeholder="Description"></textarea>
+        <input type="date" name="due_date">
+        <button type="submit">Add Task</button>
+    </form>
 
-<table class="task-table">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Due Date</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
     <?php foreach ($tasks as $row): ?>
-        <tr>
-            <td><?= htmlspecialchars($row['title']) ?></td>
-            <td><?= htmlspecialchars($row['description']) ?></td>
-            <td><?= $row['due_date'] ?></td>
-            <td><?= $row['status'] ?></td>
-            <td>
-                <a href="backend/complete_task.php?id=<?= $row['task_id'] ?>" class="btn complete">Complete</a>
-                <a href="backend/delete_task.php?id=<?= $row['task_id'] ?>" class="btn delete">Delete</a>
-            </td>
-        </tr>
+        <div class="task">
+            <h3><?= htmlspecialchars($row['title']) ?></h3>
+            <p><?= htmlspecialchars($row['description']) ?></p>
+            <p>Due: <?= $row['due_date'] ?> | Status: <?= $row['status'] ?></p>
+            <div class="actions">
+                <a href="backend/complete_task.php?id=<?= $row['task_id'] ?>">Complete</a>
+                <a href="backend/delete_task.php?id=<?= $row['task_id'] ?>">Delete</a>
+            </div>
+        </div>
     <?php endforeach; ?>
-    </tbody>
-</table>
-
 
 </body>
 </html>
