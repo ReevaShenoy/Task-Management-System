@@ -1,37 +1,17 @@
 <?php
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+include 'db_config.php';
 
-include("db_config.php");
-
-if (!isset($_SESSION['user_id'])) {
-    die("Access denied: user not logged in.");
-}
-
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $title = $_POST['title'] ?? '';
-    $description = $_POST['description'] ?? '';
-    $due_date = $_POST['due_date'] ?? null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $user_id = $_SESSION['user_id'];
+    $title = $_POST['title'];
+    $desc = $_POST['description'];
+    $due = $_POST['due_date'];
 
-    try {
-        $sql = "INSERT INTO tasks (user_id, title, description, due_date, status)
-                VALUES (:user_id, :title, :description, :due_date, 'pending')";
+    $stmt = $pdo->prepare("INSERT INTO tasks (user_id, title, description, due_date) VALUES (?, ?, ?, ?)");
+    $stmt->execute([$user_id, $title, $desc, $due]);
 
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        $stmt->bindParam(':title', $title);
-        $stmt->bindParam(':description', $description);
-        $stmt->bindParam(':due_date', $due_date);
-        $stmt->execute();
-
-        // Redirect to dashboard after successful insert
-        header("Location: ../dashboard.php");
-        exit();
-    } catch (PDOException $e) {
-        echo "Database error: " . $e->getMessage();
-    }
+    header("Location: ../dashboard.php");
+    exit();
 }
 ?>

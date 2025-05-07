@@ -1,48 +1,99 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 40px;
-    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: #f2f4f8;
+    padding: 30px;
     color: #333;
 }
 
-h1, h2 {
-    color: #222;
+h1 {
+    margin-bottom: 20px;
 }
 
-form {
-    margin-top: 20px;
-    padding: 15px;
-    background: #ffffff;
-    border: 1px solid #ccc;
+.task-form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
     max-width: 400px;
+}
+
+.task-form input,
+.task-form textarea,
+.task-form button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
     border-radius: 8px;
 }
 
-input, textarea, button {
-    display: block;
-    width: 100%;
-    margin-bottom: 12px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-button {
-    background-color: #28a745;
+.task-form button {
+    background-color: #007bff;
     color: white;
     border: none;
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #218838;
+.task-form button:hover {
+    background-color: #0056b3;
 }
 
-a {
+.task {
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.task h3 {
+    margin: 0 0 5px 0;
+}
+
+.actions {
+    margin-top: 10px;
+}
+
+.actions a {
     color: #007bff;
+    margin-right: 15px;
     text-decoration: none;
 }
 
-a:hover {
+.actions a:hover {
     text-decoration: underline;
+}
+
+.logout {
+    display: inline-block;
+    margin-top: 20px;
+    color: #dc3545;
+    text-decoration: none;
+}
+
+.logout:hover {
+    text-decoration: underline;
+}
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 20px;
+}
+
+.logout-button {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
 }
