@@ -4,7 +4,7 @@ include 'db_config.php';
 
 if (isset($_GET['id'])) {
     $task_id = $_GET['id'];
-    $stmt = $pdo->prepare("DELETE FROM tasks WHERE task_id = ?");
+    $stmt = $conn->prepare("DELETE FROM tasks WHERE task_id = ?");
     $stmt->execute([$task_id]);
 }
 

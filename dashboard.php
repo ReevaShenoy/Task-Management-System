@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
 include 'backend/db_config.php';
 $user_id = $_SESSION['user_id'];
 
-$stmt = $pdo->prepare("SELECT * FROM tasks WHERE user_id = ? ORDER BY due_date ASC");
+$stmt = $conn->prepare("SELECT * FROM tasks WHERE user_id = ? ORDER BY due_date ASC");
 $stmt->execute([$user_id]);
 $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
